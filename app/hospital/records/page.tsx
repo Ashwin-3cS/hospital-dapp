@@ -1,5 +1,5 @@
-import { CreateRecordForm } from "'../../components/create-record-form'"
-import { RecordsList } from "'../../components/records-list'"
+import { CreateRecordForm } from "@/components/create-record-form";
+import { RecordsList } from "@/components/records-list";
 
 export default function MedicalRecords() {
   return (
@@ -7,6 +7,5 @@ export default function MedicalRecords() {
       <CreateRecordForm />
       <RecordsList />
     </div>
-  )
+  );
 }
-

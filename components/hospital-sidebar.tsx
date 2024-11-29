@@ -2,10 +2,10 @@ import Link from "next/link";
 import { Users, FileText, BarChart2, Settings } from "lucide-react";
 
 const navItems = [
-  { icon: Users, label: "'Patient Access'", href: "'/hospital'" },
-  { icon: FileText, label: "'Medical Records'", href: "'/hospital/records'" },
-  { icon: BarChart2, label: "'Analytics'", href: "'/hospital/analytics'" },
-  { icon: Settings, label: "'Settings'", href: "'/hospital/settings'" },
+  { icon: Users, label: "Patient Access", href: "/hospital" },
+  { icon: FileText, label: "Medical Records", href: "/hospital/records" },
+  { icon: BarChart2, label: "Analytics", href: "/hospital/analytics" },
+  { icon: Settings, label: "Settings", href: "/hospital/settings" },
 ];
 
 export function Sidebar() {
