@@ -6,16 +6,16 @@ import { Badge } from "@/components/ui/badge";
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case "'Waiting'":
-      return "'bg-[#666666]'";
-    case "'Active'":
-      return "'bg-[#2E7D32]'";
-    case "'Emergency'":
-      return "'bg-[#D32F2F]'";
-    case "'Almost'":
-      return "'bg-[#ED6C02]'";
+    case "Waiting":
+      return "bg-[#666666]";
+    case "Active":
+      return "bg-[#2E7D32]";
+    case "Emergency":
+      return "bg-[#D32F2F]";
+    case "Almost":
+      return "bg-[#ED6C02]";
     default:
-      return "'bg-gray-500'";
+      return "bg-gray-500";
   }
 };
 
@@ -23,7 +23,7 @@ export function CurrentQueuePanel() {
   const [currentNumber, setCurrentNumber] = useState(42);
   const [totalInQueue, setTotalInQueue] = useState(15);
   const [estimatedWaitTime, setEstimatedWaitTime] = useState(25);
-  const [status, setStatus] = useState("'Active'");
+  const [status, setStatus] = useState("Active");
 
   useEffect(() => {
     const timer = setInterval(() => {

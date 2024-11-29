@@ -13,7 +13,7 @@ import {
 
 export function QueueControlInterface() {
   const [isPaused, setIsPaused] = useState(false);
-  const [department, setDepartment] = useState("'General'");
+  const [department, setDepartment] = useState("General");
 
   const handleNextPatient = () => {
     console.log("'Next patient called'");
