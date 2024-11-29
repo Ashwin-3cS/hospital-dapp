@@ -5,8 +5,8 @@ import { Navbar } from "@/components/navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "'Healthcare Blockchain'",
-  description: "'Secure Healthcare Data Management on Blockchain'",
+  title: "Healthcare Blockchain",
+  description: "Secure Healthcare Data Management on Blockchain",
 };
 
 export default function RootLayout({
