@@ -38,7 +38,7 @@ export function CreateRecordForm() {
         />
         <Input
           type="text"
-          placeholder="Proof Hash"
+          placeholder="OTP"
           value={proofHash}
           onChange={(e) => setProofHash(e.target.value)}
           className="mb-2"
