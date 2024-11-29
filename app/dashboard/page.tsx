@@ -1,7 +1,7 @@
-import { AccessRequestPanel } from "'../components/access-request-panel'"
-import { ActivePermissionsPanel } from "'../components/active-permissions-panel'"
-import { MedicalRecordsTimeline } from "'../components/medical-records-timeline'"
-import { VirtualQueueCard } from "'../components/virtual-queue-card'"
+import { AccessRequestPanel } from "@/components/access-request-panel";
+import { ActivePermissionsPanel } from "@/components/active-permissions-panel";
+import { MedicalRecordsTimeline } from "@/components/medical-records-timeline";
+import { VirtualQueueCard } from "@/components/virtual-queue-card";
 
 export default function Dashboard() {
   return (
@@ -17,6 +17,5 @@ export default function Dashboard() {
         <VirtualQueueCard />
       </div>
     </>
-  )
+  );
 }
-
