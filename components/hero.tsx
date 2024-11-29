@@ -3,51 +3,97 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { HospitalAuthModal } from "@/components/hospital-auth-modal";
 
 export function Hero() {
-  const [particles, setParticles] = useState<{ x: number; y: number }[]>([]);
+  const [particles, setParticles] = useState<
+    { x: number; y: number; size: number }[]
+  >([]);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   useEffect(() => {
     const newParticles = Array.from({ length: 50 }, () => ({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 3 + 2, // Particle size between 2 and 5
     }));
     setParticles(newParticles);
   }, []);
 
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden bg-white">
-      {particles.map((particle, index) => (
-        <motion.div
-          key={index}
-          className="absolute w-1 h-1 bg-gray-300 rounded-full"
-          animate={{
-            x: [particle.x, particle.x + Math.random() * 100 - 50],
-            y: [particle.y, particle.y + Math.random() * 100 - 50],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-        />
-      ))}
-      <div className="text-center z-10">
-        <h1 className="text-5xl md:text-6xl font-bold mb-8 text-black">
+      <div className="absolute inset-0 overflow-hidden">
+        {particles.map((particle, index) => (
+          <motion.div
+            key={index}
+            className="absolute rounded-full bg-gray-400"
+            style={{
+              width: particle.size,
+              height: particle.size,
+              left: `${particle.x}%`,
+              top: `${particle.y}%`,
+            }}
+            animate={{
+              x: ["-25%", "25%"],
+              y: ["-25%", "25%"],
+              opacity: [0.3, 0.7, 0.3],
+            }}
+            transition={{
+              x: {
+                repeat: Infinity,
+                repeatType: "reverse",
+                duration: Math.random() * 10 + 10,
+                ease: "easeInOut",
+              },
+              y: {
+                repeat: Infinity,
+                repeatType: "reverse",
+                duration: Math.random() * 10 + 10,
+                ease: "easeInOut",
+              },
+              opacity: {
+                repeat: Infinity,
+                repeatType: "reverse",
+                duration: Math.random() * 5 + 5,
+                ease: "easeInOut",
+              },
+            }}
+          />
+        ))}
+      </div>
+      <div className="text-center z-10 px-4">
+        <motion.h1
+          className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-black"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
           Secure Healthcare Data Management on Blockchain
-        </h1>
-        <div className="flex flex-col md:flex-row justify-center gap-4">
+        </motion.h1>
+        <motion.div
+          className="flex flex-col sm:flex-row justify-center gap-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
           <Button className="bg-black text-white hover:bg-gray-800 transition-colors duration-300">
             Patient Login/Register
           </Button>
-          <Button className="bg-black text-white hover:bg-gray-800 transition-colors duration-300">
+          <Button
+            className="bg-black text-white hover:bg-gray-800 transition-colors duration-300"
+            onClick={() => setIsAuthModalOpen(true)}
+          >
             Hospital Login/Register
           </Button>
           <Button className="bg-black text-white hover:bg-gray-800 transition-colors duration-300">
             Pharmacy Login/Register
           </Button>
-        </div>
+        </motion.div>
       </div>
+      <HospitalAuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+      />
     </section>
   );
 }
