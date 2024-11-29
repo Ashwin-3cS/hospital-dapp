@@ -11,18 +11,29 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { HOSPITAL_SYSTEM_ABI, HOSPITAL_SYSTEM_ADDRESS } from "@/lib/abi";
 
-export function HospitalAuthModal({ isOpen, onClose }: HospitalAuthModalProps) {
+interface PatientAuthModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function PatientAuthModal({ isOpen, onClose }: PatientAuthModalProps) {
   const [isLogin, setIsLogin] = useState(true);
-  const [hospitalName, setHospitalName] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [medicalHistory, setMedicalHistory] = useState("");
+  const [password, setPassword] = useState(""); // Password field
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Added readData function
   const readData = async () => {
     try {
+      if (typeof window.ethereum === "undefined") {
+        toast.error("Please install MetaMask to login");
+        return;
+      }
+
+      await window.ethereum.request({ method: "eth_requestAccounts" });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const address = await signer.getAddress();
@@ -33,12 +44,21 @@ export function HospitalAuthModal({ isOpen, onClose }: HospitalAuthModalProps) {
         signer
       );
 
-      const hospitalId = await contract.addressToHospitalId(address);
+      const patientId = await contract.addressToPatientId(address);
 
-      if (hospitalId) {
-        window.location.href = "/hospital";
+      if (patientId.toNumber() > 0) {
+        // Get patient data
+        const patient = await contract.patients(patientId);
+
+        if (patient.name === name) {
+          // Password verification would go here if implemented
+          // Route to dashboard
+          window.location.href = "/dashboard";
+        } else {
+          toast.error("Invalid name or password");
+        }
       } else {
-        toast.error("Hospital not found for this wallet address");
+        toast.error("Patient not found for this wallet address");
       }
     } catch (error: any) {
       console.error("Error:", error);
@@ -58,10 +78,8 @@ export function HospitalAuthModal({ isOpen, onClose }: HospitalAuthModalProps) {
 
     try {
       if (isLogin) {
-        // Call readData function on login
         await readData();
       } else {
-        // Registration code remains unchanged
         if (typeof window.ethereum === "undefined") {
           toast.error("Please install MetaMask to register");
           setIsLoading(false);
@@ -72,7 +90,7 @@ export function HospitalAuthModal({ isOpen, onClose }: HospitalAuthModalProps) {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
 
-        // Switch to Sepolia network
+        // Switch to the correct network if necessary
         try {
           await window.ethereum.request({
             method: "wallet_switchEthereumChain",
@@ -80,7 +98,7 @@ export function HospitalAuthModal({ isOpen, onClose }: HospitalAuthModalProps) {
           });
         } catch (switchError: any) {
           if (switchError.code === 4902) {
-            toast.error("Please add Sepolia network to MetaMask");
+            toast.error("Please add the network to MetaMask");
             setIsLoading(false);
             return;
           }
@@ -93,20 +111,11 @@ export function HospitalAuthModal({ isOpen, onClose }: HospitalAuthModalProps) {
           signer
         );
 
-        const loadingToast = toast.loading("Registering hospital...");
-        const tx = await contract.registerHospital(hospitalName);
-        const receipt = await tx.wait();
+        const tx = await contract.registerPatient(name, medicalHistory);
+        await tx.wait();
 
-        const event = receipt.events?.find(
-          (e: any) => e.event === "HospitalRegistered"
-        );
-
-        if (event) {
-          const hospitalId = event.args.hospitalId.toString();
-          toast.dismiss(loadingToast);
-          toast.success(`Hospital registered successfully! ID: ${hospitalId}`);
-          onClose();
-        }
+        toast.success("Patient registered successfully!");
+        setIsLogin(true);
       }
     } catch (error: any) {
       console.error("Error:", error);
@@ -164,7 +173,7 @@ export function HospitalAuthModal({ isOpen, onClose }: HospitalAuthModalProps) {
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">
-                  {isLogin ? "Hospital Login" : "Hospital Register"}
+                  {isLogin ? "Patient Login" : "Patient Register"}
                 </h2>
                 <button
                   onClick={onClose}
@@ -184,15 +193,27 @@ export function HospitalAuthModal({ isOpen, onClose }: HospitalAuthModalProps) {
                   className="space-y-4"
                 >
                   <div>
-                    <Label htmlFor="hospitalName">Hospital Name</Label>
+                    <Label htmlFor="name">Full Name</Label>
                     <Input
-                      id="hospitalName"
+                      id="name"
                       type="text"
-                      value={hospitalName}
-                      onChange={(e) => setHospitalName(e.target.value)}
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       required
                     />
                   </div>
+                  {!isLogin && (
+                    <div>
+                      <Label htmlFor="medicalHistory">Medical History</Label>
+                      <Input
+                        id="medicalHistory"
+                        type="text"
+                        value={medicalHistory}
+                        onChange={(e) => setMedicalHistory(e.target.value)}
+                        required
+                      />
+                    </div>
+                  )}
                   <div>
                     <Label htmlFor="password">Password</Label>
                     <div className="relative">

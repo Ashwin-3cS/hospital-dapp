@@ -3,13 +3,15 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { HospitalAuthModal } from "@/components/hospital-auth-modal";
+import { HospitalAuthModal } from "./hospital-auth-modal";
+import { PatientAuthModal } from "./patient-auth-modal";
 
 export function Hero() {
   const [particles, setParticles] = useState<
     { x: number; y: number; size: number }[]
   >([]);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isHospitalAuthModalOpen, setIsHospitalAuthModalOpen] = useState(false);
+  const [isPatientAuthModalOpen, setIsPatientAuthModalOpen] = useState(false);
 
   useEffect(() => {
     const newParticles = Array.from({ length: 50 }, () => ({
@@ -76,12 +78,15 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <Button className="bg-black text-white hover:bg-gray-800 transition-colors duration-300">
+          <Button
+            className="bg-black text-white hover:bg-gray-800 transition-colors duration-300"
+            onClick={() => setIsPatientAuthModalOpen(true)}
+          >
             Patient Login/Register
           </Button>
           <Button
             className="bg-black text-white hover:bg-gray-800 transition-colors duration-300"
-            onClick={() => setIsAuthModalOpen(true)}
+            onClick={() => setIsHospitalAuthModalOpen(true)}
           >
             Hospital Login/Register
           </Button>
@@ -91,8 +96,12 @@ export function Hero() {
         </motion.div>
       </div>
       <HospitalAuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
+        isOpen={isHospitalAuthModalOpen}
+        onClose={() => setIsHospitalAuthModalOpen(false)}
+      />
+      <PatientAuthModal
+        isOpen={isPatientAuthModalOpen}
+        onClose={() => setIsPatientAuthModalOpen(false)}
       />
     </section>
   );

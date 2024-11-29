@@ -13,7 +13,7 @@ interface Request {
 }
 
 export function RequestAccessPanel() {
-  const [patientId, setPatientId] = useState("''");
+  const [patientId, setPatientId] = useState("");
   const [requests, setRequests] = useState<Request[]>([
     {
       id: "'R1'",

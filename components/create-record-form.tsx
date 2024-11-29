@@ -5,18 +5,18 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 export function CreateRecordForm() {
-  const [patientId, setPatientId] = useState("''");
-  const [recordDetails, setRecordDetails] = useState("''");
-  const [proofHash, setProofHash] = useState("''");
+  const [patientId, setPatientId] = useState("");
+  const [recordDetails, setRecordDetails] = useState("");
+  const [proofHash, setProofHash] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // In a real application, this would make an API call to create a record
     console.log("'Record created:'", { patientId, recordDetails, proofHash });
     // Reset form
-    setPatientId("''");
-    setRecordDetails("''");
-    setProofHash("''");
+    setPatientId("");
+    setRecordDetails("");
+    setProofHash("");
   };
 
   return (

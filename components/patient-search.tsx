@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 
 export function PatientSearch() {
-  const [searchQuery, setSearchQuery] = useState("''");
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
 
   const handleSearch = (e: React.FormEvent) => {

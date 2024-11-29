@@ -2,10 +2,10 @@ import Link from "next/link";
 import { Users, Shield, Clock, Building2, Settings } from "lucide-react";
 
 const navItems = [
-  { icon: Users, label: "'Patient Search'", href: "'/pharmacy'" },
-  { icon: Shield, label: "'Access Management'", href: "'/pharmacy/access'" },
-  { icon: Building2, label: "'Hospital Info'", href: "'/pharmacy/hospital'" },
-  { icon: Settings, label: "'Settings'", href: "'/pharmacy/settings'" },
+  { icon: Users, label: "Patient Search", href: "/pharmacy" },
+  { icon: Shield, label: "Access Management", href: "/pharmacy/access" },
+  { icon: Building2, label: "Hospital Info", href: "/pharmacy/hospital" },
+  { icon: Settings, label: "Settings", href: "/pharmacy/settings" },
 ];
 
 export function Sidebar() {

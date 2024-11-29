@@ -6,15 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 
 export function PatientSearchPharmacy() {
-  const [searchQuery, setSearchQuery] = useState("''");
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     // In a real application, this would make an API call to search for patients
     setSearchResults([
-      { id: "'P12345'", name: "'John Doe'", accessStatus: "'Granted'" },
-      { id: "'P67890'", name: "'Jane Smith'", accessStatus: "'Not Requested'" },
+      { id: "P12345", name: "John Doe", accessStatus: "Granted" },
+      { id: "P67890", name: "Jane Smith", accessStatus: "Not Requested" },
     ]);
   };
 
