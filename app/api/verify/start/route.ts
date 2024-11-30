@@ -5,7 +5,7 @@ import  RestException  from "twilio/lib/base/RestException";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { to, channel = "sms", locale = "en" } = body;
+    const { phoneNumber: to, channel = "sms", locale = "en" } = body;
 
     if (!to || to.trim() === "") {
       return NextResponse.json(
